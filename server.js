@@ -1,3 +1,5 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const app = express();
@@ -23,6 +25,13 @@ const posts = [
 
 app.post('/login', (req, res) => {
   // 1 Authenticate User
+
+  // 2 Generate Token
+  const username = req.body.username;
+  const user = { name: username };
+
+  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+  res.json({ accessToken });
 });
 
 const server = app.listen(3000, () => {
