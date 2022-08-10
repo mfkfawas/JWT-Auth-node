@@ -11,6 +11,10 @@ app.get('/posts', authenticateToken, (req, res) => {
 
 app.use(express.json());
 
+// Implementing refresh token - refresh token is a token that is sent to the client to get a new access token.
+// Refresh token is sent to the client when the access token expires.
+// Implementing refresh token allow us to actually take our authentication server and move it to a separate server.
+// So we can have one server that handles creation of tokens, deletion of tokens and refresh tokens and other server that handles all API related tasks.
 const posts = [
   {
     id: 1,
@@ -25,17 +29,6 @@ const posts = [
     username: 'test2',
   },
 ];
-
-app.post('/login', (req, res) => {
-  // 1 Authenticate User
-
-  // 2 Generate Token
-  const username = req.body.username;
-  const user = { name: username };
-
-  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-  res.json({ accessToken });
-});
 
 async function authenticateToken(req, res, next) {
   let token =
