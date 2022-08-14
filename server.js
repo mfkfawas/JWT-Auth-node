@@ -2,7 +2,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const { promisify } = require('util');
 const app = express();
 
 app.get('/posts', authenticateToken, (req, res) => {
@@ -11,10 +10,6 @@ app.get('/posts', authenticateToken, (req, res) => {
 
 app.use(express.json());
 
-// Implementing refresh token - refresh token is a token that is sent to the client to get a new access token.
-// Refresh token is sent to the client when the access token expires.
-// Implementing refresh token allow us to actually take our authentication server and move it to a separate server.
-// So we can have one server that handles creation of tokens, deletion of tokens and refresh tokens and other server that handles all API related tasks.
 const posts = [
   {
     id: 1,
